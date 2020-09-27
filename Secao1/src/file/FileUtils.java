@@ -14,9 +14,8 @@ public class FileUtils {
     private static final int DEFAULT_TITLE = 22;
 
     
-    public static String[] getRandom(String filename,int quantity) throws FileNotFoundException{
+    public static String[] getRandom(List<String> titles,int quantity) throws FileNotFoundException{
         String[] titleRandom = new String[quantity];
-        List<String> titles = readFile(filename);
         for(int i=0;i<quantity;i++){
             Random random = new Random();
             titleRandom[i]=titles.get(random.nextInt(titles.size()-1));
