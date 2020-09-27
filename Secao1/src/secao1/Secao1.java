@@ -9,8 +9,8 @@ public class Secao1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String fileName = args[0] != null ? args[0] : "entrada.txt";
-        int lineCount = args[1] != null ? Integer.parseInt(args[1]) : 5000;
+        //String fileName = args[0] != null ? args[0] : "entrada.txt";;
+        //int lineCount = args[1] != null ? Integer.parseInt(args[1]) : 5000;
         
         // Read dataset 'entrada.txt' random limited by line count
         
@@ -22,7 +22,7 @@ public class Secao1 {
             "20-Knit-Pocket-Pets-Sachiyo-Ishii"
         };
         
-        SortResult qickSortResult = QuickSort.Sort(mock);
+        //SortResult qickSortResult = QuickSort.Sort(mock);
         SortResult mergeSortResult = MergeSort.Sort(mock);
         
         // Save statistic data in 'saida.txt'
