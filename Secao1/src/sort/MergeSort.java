@@ -71,38 +71,6 @@ public class MergeSort {
             a[from + j] = b[j];
         }
     }//end merge
-    
-    
-    
-    
-    
-    
-    
-    public static void intercala(String vetor[], int inicio, int meio, int fim) {
-        int i, j, k;
-        String vetorB[] = new String[fim - inicio + 1];
-        for (i = inicio; i < meio; i++) {
-            CopyCount++;
-            vetorB[i] = vetor[i];
-        }
-        for (j = meio + 1; j < fim; j++) {
-            CopyCount++;
-            vetorB[fim + meio + 1 - j] = vetor[j];
-        }
-        i = inicio;
-        j = fim;
-        for (k = inicio; k < fim; k++) {
-            ComparisonCount++;
-            CopyCount++;
-            if (vetorB[i].compareTo(vetorB[j]) <= 0) {
-                vetor[k] = vetorB[i];
-                i = i + 1;
-            } else {
-                vetor[k] = vetorB[j];
-                j = j - 1;
-            }
-        }
-    }
     private static boolean IncreaseComparisonCount() {
         ComparisonCount++;
         return true;
