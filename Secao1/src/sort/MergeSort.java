@@ -4,16 +4,21 @@ import model.SortResult;
 
 public class MergeSort {
 
-    private static long ComparisonCount = 0;
-    private static long CopyCount = 0;
+    private static long ComparisonCount, CopyCount;
 
     public static SortResult Sort(String[] values) {
+        ComparisonCount = CopyCount = 0;
+        
         long startMiliseconds = System.currentTimeMillis();
 
         mergeSort(values, 0, values.length - 1);
         long endMiliseconds = System.currentTimeMillis();
 
-        return new SortResult(ComparisonCount, CopyCount, endMiliseconds - startMiliseconds);
+        return new SortResult(
+                values.length,
+                ComparisonCount,
+                CopyCount,
+                endMiliseconds - startMiliseconds);
     }
 
     public static void mergeSort(String vetor[], int inicio, int fim) {
@@ -27,7 +32,7 @@ public class MergeSort {
         }
     }
 
-     public static void merge(String[] a, int from, int mid, int to) {
+    public static void merge(String[] a, int from, int mid, int to) {
         int n = to - from + 1;       // size of the range to be merged
         String[] b = new String[n];   // merge both halves into a temporary array b
         int i1 = from;               // next element to consider in the first range
@@ -65,15 +70,15 @@ public class MergeSort {
         }
 
         // copy back from the temporary array
-        for (j = 0;IncreaseComparisonCount() && j < n; j++) {
-            
+        for (j = 0; IncreaseComparisonCount() && j < n; j++) {
+
             CopyCount++;
             a[from + j] = b[j];
         }
     }//end merge
+
     private static boolean IncreaseComparisonCount() {
         ComparisonCount++;
         return true;
     }
 }
-

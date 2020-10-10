@@ -1,14 +1,24 @@
 package model;
 
 public class SortResult {
-    private long ComparisonCount;
-    private long CopyCount;
-    private long ProcessingTimeInMiliseconds;
 
-    public SortResult(long ComparisonCount, long CopyCount, long ProcessingTimeInMiliseconds) {
+    private final int EntriesCount;
+    private final long ComparisonCount;
+    private final long CopyCount;
+    private final long ProcessingTimeInMiliseconds;
+
+    public SortResult(int EntriesCount, long ComparisonCount, long CopyCount, long ProcessingTimeInMiliseconds) {
+        this.EntriesCount = EntriesCount;
         this.ComparisonCount = ComparisonCount;
         this.CopyCount = CopyCount;
         this.ProcessingTimeInMiliseconds = ProcessingTimeInMiliseconds;
+    }
+
+    /**
+     * @return the EntriesCount
+     */
+    public int getEntriesCount() {
+        return EntriesCount;
     }
 
     /**

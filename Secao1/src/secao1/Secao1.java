@@ -2,6 +2,7 @@ package secao1;
 
 import file.FileUtils;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import model.*;
 import sort.*;
@@ -10,30 +11,29 @@ public class Secao1 {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        //String fileName = args[0] != null ? args[0] : 
-        //int lineCount = args[1] != null ? Integer.parseInt(args[1]) : 5000;
-        String fileName = "C:\\Users\\Arlyson\\Desktop\\EDII.2020.1\\Secao1\\dataset.csv";
-        // Read dataset 'entrada.txt' random limited by line count
-        
+        String fileName = "..\\dataset\\DANIEL REZENDE VAROTO - dataset_simp_sem_descricao.csv";
+
         List<String> titles = FileUtils.readFile(fileName);
-        
-        String[] random5 = FileUtils.getRandom(titles, 5);
-        SortResult qickSortResult = QuickSort.Sort(random5);
-        SortResult mergeSortResult = MergeSort.Sort(random5);
-        
-//        String[] mock = new String[] {
-//            "1984-George-Orwell",
-//            "100-Deadly-Skills-Survival-Edition-Clint-Emerson",
-//            "100-Most-Pointless-Things-World-Alexander-Armstrong",
-//            "50-Knitted-Dolls-Sarah-Keen",
-//            "20-Knit-Pocket-Pets-Sachiyo-Ishii"
-//        };
-//        SortResult qickSortResult = QuickSort.Sort(mock);
-//        SortResult mergeSortResult = MergeSort.Sort(mock);
-        
-        // Save statistic data in 'saida.txt'
+        List<SortResult> quickSortResults = new ArrayList<>();
+        List<SortResult> mergeSortResults = new ArrayList<>();
+
+        int[] sizes = new int[]{1000, 5000, 10000, 50000, 100000};
+        for (int size : sizes) {
+            for (var i = 0; i < 5; i++) {
+                String[] randomEntries = FileUtils.getRandom(titles, size);
+
+                SortResult qickSortResult = QuickSort.Sort(randomEntries);
+                SortResult mergeSortResult = MergeSort.Sort(randomEntries);
+
+                quickSortResults.add(qickSortResult);
+                mergeSortResults.add(mergeSortResult);
+            }
+        }
+
+        FileUtils.saveSortStatistics("QuickSort", quickSortResults);
+        FileUtils.saveSortStatistics("MergeSort", mergeSortResults);
     }
-    
 }
