@@ -23,7 +23,7 @@ public class QuickSort {
     }
 
     private static void quickSort(String[] values, int start, int end) {
-        if (IncreaseComparisonCount() && start < end) {
+        if (start < end) {
             int pivotPosition = partition(values, start, end);
             quickSort(values, start, pivotPosition - 1);
             quickSort(values, pivotPosition + 1, end);
@@ -36,8 +36,8 @@ public class QuickSort {
         int currentStart = initialStart + 1;
         int currentEnd = initialEnd;
 
-        while (currentStart <= currentEnd) { // <= isso é para ser contabilizado também?
-            if (values[currentStart].compareTo(pivot) <= 0) { // <= ou somente esse?
+        while (currentStart <= currentEnd) {
+            if (IncreaseComparisonCount() && values[currentStart].compareTo(pivot) <= 0) {
                 currentStart++;
             } else if (IncreaseComparisonCount() && pivot.compareTo(values[currentEnd]) < 0) {
                 currentEnd--;

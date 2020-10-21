@@ -24,7 +24,6 @@ public class MergeSort {
     public static void mergeSort(String vetor[], int inicio, int fim) {
         int meio;
         if (inicio < fim) {
-            ComparisonCount++;
             meio = (inicio + fim) / 2;
             mergeSort(vetor, inicio, meio);
             mergeSort(vetor, meio + 1, fim);
@@ -40,7 +39,7 @@ public class MergeSort {
         int j = 0;                   // next open position in b
 
         // as long as neither i1 nor i2 past the end, move the smaller into b
-        while (IncreaseComparisonCount() && i1 <= mid && i2 <= to) {
+        while (i1 <= mid && i2 <= to) {
             CopyCount++;
             if (IncreaseComparisonCount() && a[i1].compareTo(a[i2]) < 0) {
                 b[j] = a[i1];
@@ -54,7 +53,7 @@ public class MergeSort {
 
         // note that only one of the two while loops below is executed
         // copy any remaining entries of the first half
-        while (IncreaseComparisonCount() && i1 <= mid) {
+        while (i1 <= mid) {
             CopyCount++;
             b[j] = a[i1];
             i1++;
@@ -62,7 +61,7 @@ public class MergeSort {
         }
 
         // copy any remaining entries of the second half
-        while (IncreaseComparisonCount() && i2 <= to) {
+        while (i2 <= to) {
             CopyCount++;
             b[j] = a[i2];
             i2++;
@@ -70,8 +69,7 @@ public class MergeSort {
         }
 
         // copy back from the temporary array
-        for (j = 0; IncreaseComparisonCount() && j < n; j++) {
-
+        for (j = 0; j < n; j++) {
             CopyCount++;
             a[from + j] = b[j];
         }
