@@ -14,7 +14,12 @@ public class Secao1 {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        String fileName = "..\\dataset\\DANIEL REZENDE VAROTO - dataset_simp_sem_descricao.csv";
+        // Verifica se o nome do arquivo foi enviado
+        if (args.length == 0) {
+            System.out.println("Caminho do dataset não especificado, executando com arquivo 'exemploDataset.csv'.");
+        }
+        
+        String fileName = (args.length == 0) ? "./exemploDataset.csv" : args[0];
 
         List<String> titles = FileUtils.readFile(fileName);
         List<SortResult> quickSortResults = new ArrayList<>();
@@ -22,7 +27,7 @@ public class Secao1 {
 
         int[] sizes = new int[]{1000, 5000, 10000, 50000, 100000};
         for (int size : sizes) {
-            for (var i = 0; i < 5; i++) {
+            for (int i = 0; i < 5; i++) {
                 String[] randomEntries = FileUtils.getRandom(titles, size);
 
                 SortResult qickSortResult = QuickSort.Sort(randomEntries);
@@ -35,5 +40,7 @@ public class Secao1 {
 
         FileUtils.saveSortStatistics("QuickSort", quickSortResults);
         FileUtils.saveSortStatistics("MergeSort", mergeSortResults);
+        
+        System.out.println("Dados salvos no arquivo saida.txt");
     }
 }

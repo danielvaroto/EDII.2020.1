@@ -4,65 +4,91 @@ import model.SortResult;
 
 public class QuickSort {
 
-    private static long comparisonCount, copyCount;
+    private static long contagemComparacao, contagemCopia;
 
-    public static SortResult Sort(String[] values) {
-        comparisonCount = copyCount = 0;
-        
-        long startMiliseconds = System.currentTimeMillis();
+    public static SortResult Sort(String[] valores) {
+        // Inicia contadores
+        contagemComparacao = contagemCopia = 0;
 
-        quickSort(values, 0, values.length - 1);
+        // Grava tempo de inicio
+        long tempoInicial = System.currentTimeMillis();
 
-        long endMiliseconds = System.currentTimeMillis();
+        QuickSort(valores, 0, valores.length - 1);
 
+        // Grava tempo do fim
+        long tempoFinal = System.currentTimeMillis();
+
+        // Calcula tempo total
+        long tempoTotalMilissegundos = tempoFinal - tempoInicial;
+
+        // Retorna as estatisticas
         return new SortResult(
-                values.length,
-                comparisonCount,
-                copyCount,
-                endMiliseconds - startMiliseconds);
+                valores.length,
+                contagemComparacao,
+                contagemCopia,
+                tempoTotalMilissegundos);
     }
 
-    private static void quickSort(String[] values, int start, int end) {
-        if (start < end) {
-            int pivotPosition = partition(values, start, end);
-            quickSort(values, start, pivotPosition - 1);
-            quickSort(values, pivotPosition + 1, end);
+    private static void QuickSort(String[] valores, int inicio, int fim) {
+        if (inicio < fim) {
+            int posicaoPivo = Particionar(valores, inicio, fim);
+
+            QuickSort(valores, inicio, posicaoPivo - 1);
+            QuickSort(valores, posicaoPivo + 1, fim);
         }
     }
 
-    private static int partition(String[] values, int initialStart, int initialEnd) {
-        String pivot = values[initialStart];
-        copyCount++;
-        int currentStart = initialStart + 1;
-        int currentEnd = initialEnd;
+    private static int Particionar(String[] valores, int inicio, int fim) {
+        // Valor copiado
+        contagemCopia++;
+        String pivo = valores[inicio];
 
-        while (currentStart <= currentEnd) {
-            if (IncreaseComparisonCount() && values[currentStart].compareTo(pivot) <= 0) {
-                currentStart++;
-            } else if (IncreaseComparisonCount() && pivot.compareTo(values[currentEnd]) < 0) {
-                currentEnd--;
+        int inicioLocal = inicio + 1;
+        int fimLocal = fim;
+
+        while (inicioLocal <= fimLocal) {
+            // Valor comparado
+            if (AumentarContagemComparacao() && valores[inicioLocal].compareTo(pivo) <= 0) {
+                inicioLocal++;
+            }
+            // Valor comparado
+            else if (AumentarContagemComparacao() && pivo.compareTo(valores[fimLocal]) < 0) {
+                fimLocal--;
             } else {
-                String swap = values[currentStart];
-                copyCount++;
-                values[currentStart] = values[currentEnd];
-                copyCount++;
-                values[currentEnd] = swap;
-                copyCount++;
-                currentStart++;
-                currentEnd--;
+                // Permuta os valores do inicio e fim local
+                Permutar(valores, inicioLocal, fimLocal);
+
+                inicioLocal++;
+                fimLocal--;
             }
         }
 
-        values[initialStart] = values[currentEnd];
-        copyCount++;
-        values[currentEnd] = pivot;
-        copyCount++;
+        // Valor copiado
+        contagemCopia++;
+        valores[inicio] = valores[fimLocal];
 
-        return currentEnd;
+        valores[fimLocal] = pivo;
+
+        return fimLocal;
     }
 
-    private static boolean IncreaseComparisonCount() {
-        comparisonCount++;
+    private static void Permutar(String[] valores, int de, int para) {
+        // Valor copiado
+        contagemCopia++;
+        String valor = valores[de];
+
+        // Valor copiado
+        contagemCopia++;
+        valores[de] = valores[para];
+
+        valores[para] = valor;
+    }
+
+    private static boolean AumentarContagemComparacao() {
+        // Aumenta contador de comparacao
+        contagemComparacao++;
+        
+        // Retorna true para comparacao acontecer
         return true;
     }
 }

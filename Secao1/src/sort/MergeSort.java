@@ -70,7 +70,6 @@ public class MergeSort {
 
         // copy back from the temporary array
         for (j = 0; j < n; j++) {
-            CopyCount++;
             a[from + j] = b[j];
         }
     }//end merge

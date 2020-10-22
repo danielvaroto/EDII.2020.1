@@ -141,8 +141,11 @@ public class FileUtils {
 
             lines.add(resultLine);
         }
-        
+
         Path file = Paths.get("..\\saida.txt");
-        Files.write(file, lines, StandardOpenOption.APPEND);
+        Files.write(file,
+                lines,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.APPEND);
     }
 }
