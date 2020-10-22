@@ -14,33 +14,64 @@ public class Secao1 {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        // Verifica se o nome do arquivo foi enviado
-        if (args.length == 0) {
-            System.out.println("Caminho do dataset não especificado, executando com arquivo 'exemploDataset.csv'.");
+        String caminhoDataset;
+        String caminhoEntrada;
+        String caminhoSaida;
+
+        // Verifica se os caminhos dos arquivos foram enviados
+        if (args.length < 1) {
+            System.out.println("Caminho do arquivo do dataset nao especificado, executando com arquivo '.\\exemploDataset.csv'.");
         }
-        
-        String fileName = (args.length == 0) ? "./exemploDataset.csv" : args[0];
+        if (args.length < 2) {
+            System.out.println("Caminho do arquivo de entrada nao especificado, executando com arquivo '.\\exemploEntrada.txt'.");
+        }
+        if (args.length < 3) {
+            System.out.println("Caminho do arquivo da saida nao especificado, executando com arquivo '.\\exemploSaida.txt'.");
+        }
 
-        List<String> titles = FileUtils.readFile(fileName);
-        List<SortResult> quickSortResults = new ArrayList<>();
-        List<SortResult> mergeSortResults = new ArrayList<>();
+        // Preenche os caminhos dos arquivos, utiliza valores padrao se nao forem passados pelo usuarios
+        caminhoDataset = (args.length < 1) ? "./exemploDataset.csv" : args[0];
+        caminhoEntrada = (args.length < 2) ? "./exemploEntrada.txt" : args[1];
+        caminhoSaida = (args.length < 3) ? "./exemploSaida.txt" : args[2];
 
-        int[] sizes = new int[]{1000, 5000, 10000, 50000, 100000};
-        for (int size : sizes) {
+        // Cria lista com todos os titulos
+        System.out.println("Iniciando leitura do arquivo do dataset.");
+        List<String> titulos = FileUtils.LerDataset(caminhoDataset);
+        System.out.println("Finalizada leitura do arquivo do dataset.");
+
+        // Cria array com os tamanhos de entrada
+        System.out.println("Iniciando leitura do arquivo de entrada.");
+        int[] tamanhos = FileUtils.LerTamanhoEntradas(caminhoEntrada);
+        System.out.println("Finalizada leitura do arquivo de entrada.");
+
+        List<SortResult> resultadosQuickSort = new ArrayList<>();
+        List<SortResult> resultadosMergeSort = new ArrayList<>();
+
+        // Loop de tamanhos para executar todos os tamanhos
+        System.out.println("Iniciando execucao dos algoritmos de ordenacao.");
+        for (int tamanho : tamanhos) {
+            // Cada tamanho é executado cinco vezes
             for (int i = 0; i < 5; i++) {
-                String[] randomEntries = FileUtils.getRandom(titles, size);
+                // Cria array de titulos aleatorio no tamanho especificado
+                String[] entradasAleatorias = FileUtils.BuscarAleatorio(titulos, tamanho);
 
-                SortResult qickSortResult = QuickSort.Sort(randomEntries);
-                SortResult mergeSortResult = MergeSort.Sort(randomEntries);
+                // Executa os algoritmos de ordenacao na mesma entrada aleatoria
+                SortResult resultadoQuickSort = QuickSort.Sort(entradasAleatorias);
+                SortResult resultadoMergeSort = MergeSort.Sort(entradasAleatorias);
 
-                quickSortResults.add(qickSortResult);
-                mergeSortResults.add(mergeSortResult);
+                // Salva os resultados na lista de resultados
+                resultadosQuickSort.add(resultadoQuickSort);
+                resultadosMergeSort.add(resultadoMergeSort);
             }
-        }
 
-        FileUtils.saveSortStatistics("QuickSort", quickSortResults);
-        FileUtils.saveSortStatistics("MergeSort", mergeSortResults);
-        
-        System.out.println("Dados salvos no arquivo saida.txt");
+            System.out.println("Tamanho de entradas " + tamanho + " executado.");
+        }
+        System.out.println("Finalizada execucao dos algoritmos de ordenacao.");
+
+        // Grava todos os resultados do QuickSort
+        System.out.println("Iniciando salvamento de dados no arquivo de saida.");
+        FileUtils.SalvaEstatisticasOrdenacao(caminhoSaida, "QuickSort", resultadosQuickSort);
+        FileUtils.SalvaEstatisticasOrdenacao(caminhoSaida, "MergeSort", resultadosMergeSort);
+        System.out.println("Finalizado salvamento de dados no arquivo de saida.");
     }
 }
