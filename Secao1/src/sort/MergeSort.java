@@ -31,15 +31,15 @@ public class MergeSort {
         }
     }
 
-    public static void merge(String[] a, int from, int mid, int to) {
-        int n = to - from + 1;       // size of the range to be merged
-        String[] b = new String[n];   // merge both halves into a temporary array b
-        int i1 = from;               // next element to consider in the first range
-        int i2 = mid + 1;            // next element to consider in the second range
-        int j = 0;                   // next open position in b
+    public static void merge(String[] a, int inicio, int meio, int fim) {
+        int n = fim - inicio + 1;       // tamanho do array do merge
+        String[] b = new String[n];   // matriz temporária b
+        int i1 = inicio;               // proximo elemento do primeira metade
+        int i2 = meio + 1;            // proximo elemento da segunda metade
+        int j = 0;                   // posição na matriz b
 
-        // as long as neither i1 nor i2 past the end, move the smaller into b
-        while (i1 <= mid && i2 <= to) {
+        // enquando as matrizes não chegarem ao fim move o menos para o b
+        while (i1 <= meio && i2 <= fim) {
             CopyCount++;
             if (IncreaseComparisonCount() && a[i1].compareTo(a[i2]) < 0) {
                 b[j] = a[i1];
@@ -51,28 +51,27 @@ public class MergeSort {
             j++;
         }
 
-        // note that only one of the two while loops below is executed
-        // copy any remaining entries of the first half
-        while (i1 <= mid) {
+        // copia o que sobrar do primeiro array
+        while (i1 <= meio) {
             CopyCount++;
             b[j] = a[i1];
             i1++;
             j++;
         }
 
-        // copy any remaining entries of the second half
-        while (i2 <= to) {
+        // copia o que sobrar do segundo array
+        while (i2 <= fim) {
             CopyCount++;
             b[j] = a[i2];
             i2++;
             j++;
         }
 
-        // copy back from the temporary array
+        // retorna os valores para o array principal
         for (j = 0; j < n; j++) {
-            a[from + j] = b[j];
+            a[inicio + j] = b[j];
         }
-    }//end merge
+    }
 
     private static boolean IncreaseComparisonCount() {
         ComparisonCount++;
