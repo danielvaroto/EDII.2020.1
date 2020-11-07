@@ -92,15 +92,15 @@ public class FileUtils {
     private static List<String> BuscaLinha(String cvsLine, char separators, char customQuote) {
         List<String> result = new ArrayList<>();
 
-        //if empty, return!
+        //Se está vazio retorna
         if (cvsLine == null || cvsLine.isEmpty()) {
             return result;
         }
-
+        //identifica o quote padrão do texto para evitar quebras na leitura
         if (customQuote == ' ') {
             customQuote = DEFAULT_QUOTE;
         }
-
+        //separador de coluna no texto
         if (separators == ' ') {
             separators = DEFAULT_SEPARATOR;
         }
@@ -118,7 +118,7 @@ public class FileUtils {
                     inQuotes = false;
                     doubleQuotesInColumn = false;
                 } else {
-                    //Fixed : allow "" in custom quote enclosed
+                    //Permiti uso de " no texto
                     if (ch == '\"') {
                         if (!doubleQuotesInColumn) {
                             curVal.append(ch);
@@ -132,12 +132,11 @@ public class FileUtils {
                 if (ch == customQuote) {
                     inQuotes = true;
 
-                    //Fixed : allow "" in empty quote enclosed
+                    //permiti aspas no texto
                     if (chars[0] != '"' && customQuote == '\"') {
                         curVal.append('"');
                     }
 
-                    //double quotes in column will hit this!
                     if (startCollectChar) {
                         curVal.append('"');
                     }
@@ -147,10 +146,8 @@ public class FileUtils {
                     curVal = new StringBuffer();
                     startCollectChar = false;
                 } else if (ch == '\r') {
-                    //ignore LF characters
                     continue;
                 } else if (ch == '\n') {
-                    //the end, break!
                     break;
                 } else {
                     curVal.append(ch);
