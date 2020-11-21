@@ -5,10 +5,10 @@ public class Autor {
     private int id, quantidadeLivros;
     private String nome;
 
-    public Autor(int id, int quantidadeLivros, String nome) {
+    public Autor(int id, String nome) {
         this.id = id;
-        this.quantidadeLivros = quantidadeLivros;
         this.nome = nome;
+        this.quantidadeLivros = 0;
     }
 
     public void acrescerQuantidadeLivros() {

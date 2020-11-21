@@ -1,46 +1,42 @@
-package file;
+package arquivo;
 
+import estrutura.SondagemDuplaTabelaHash;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import model.Autor;
 import model.Livro;
 
-public class FileUtils {
+public class ArquivoUtils {
 
     private static final char DEFAULT_SEPARATOR = ',';
     private static final char DEFAULT_QUOTE = '"';
-    private static final int DEFAULT_TITULO = 9;
-    private static final int DEFAULT_AUTORES = 0;
+    private static final int DEFAULT_LIVRO_TITULO = 9;
+    private static final int DEFAULT_LIVRO_AUTORES = 0;
+    private static final int DEFAULT_AUTOR_ID = 0;
+    private static final int DEFAULT_AUTOR_NOME = 1;
 
-    public static List<String> LerDataset(String caminhoDataset) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File(caminhoDataset));
-        List<String> titles = new ArrayList();
+    private static final Random random = new Random();
 
-        while (scanner.hasNext()) {
-            List<String> line = BuscaLinha(scanner.nextLine(), DEFAULT_SEPARATOR, DEFAULT_QUOTE);
-            if (line.size() == 10) {
-                titles.add(line.get(DEFAULT_TITULO));
-            }
-        }
-
-        scanner.close();
-
-        return titles;
-    }
-
-    public static List<Livro> LerDatasetLivros(String caminhoDataset) throws FileNotFoundException {
+    public static List<Livro> lerDatasetLivros(String caminhoDataset) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(caminhoDataset));
         List<Livro> livros = new ArrayList();
 
         while (scanner.hasNext()) {
-            var linha = BuscaLinha(scanner.nextLine(), DEFAULT_SEPARATOR, DEFAULT_QUOTE);
+            var linha = buscaLinha(scanner.nextLine(), DEFAULT_SEPARATOR, DEFAULT_QUOTE);
             livros.add(
                     new Livro(
-                            linha.get(DEFAULT_TITULO),
-                            linha.get(DEFAULT_AUTORES)
+                            linha.get(DEFAULT_LIVRO_TITULO),
+                            linha.get(DEFAULT_LIVRO_AUTORES)
                     )
             );
         }
@@ -50,32 +46,45 @@ public class FileUtils {
         return livros;
     }
 
-    public static int[] LerTamanhoEntradas(String caminhoEntrada) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File(caminhoEntrada));
-        List<String> titles = new ArrayList();
+    public static SondagemDuplaTabelaHash<Autor> lerDatasetAutores(String caminhoDataset) throws FileNotFoundException {
+        Scanner scanner = new Scanner(new File(caminhoDataset));
+        var autores = new SondagemDuplaTabelaHash<Autor>();
 
-        int quantidadeTamanhoEntradas = scanner.nextInt();
-        int[] tamanhoEntradas = new int[quantidadeTamanhoEntradas];
-
-        for (int i = 0; i < quantidadeTamanhoEntradas; i++) {
-            tamanhoEntradas[i] = scanner.nextInt();
+        while (scanner.hasNext()) {
+            var linha = buscaLinha(scanner.nextLine(), DEFAULT_SEPARATOR, DEFAULT_QUOTE);
+            var id = Integer.parseInt(linha.get(DEFAULT_AUTOR_ID), 10);
+            autores.inserir(
+                    id,
+                    new Autor(
+                            id,
+                            linha.get(DEFAULT_AUTOR_NOME)
+                    )
+            );
         }
 
-        return tamanhoEntradas;
+        scanner.close();
+
+        return autores;
     }
 
-    public static String[] BuscarAleatorio(List<String> titles, int quantity) throws FileNotFoundException {
-        String[] titleRandom = new String[quantity];
+    public static <T> T buscarAleatorio(List<T> titles) {
+        return titles.remove(random.nextInt(titles.size()));
+    }
 
-        for (int i = 0; i < quantity; i++) {
-            Random random = new Random();
-            titleRandom[i] = titles.get(random.nextInt(titles.size() - 1));
+    public static void salvarSaidaAutores(String caminhoSaida, Autor[] autores, int quantidade) throws IOException {
+        var linhas = new ArrayList<String>();
+
+        for (var i = 0; i < quantidade; i++) {
+            linhas.add(autores[i].buscarNome() + ": " + autores[i].buscarQuantidadeLivros());
         }
 
-        return titleRandom;
+        Files.write(Paths.get(caminhoSaida),
+                linhas,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.APPEND);
     }
 
-    private static List<String> BuscaLinha(String cvsLine, char separators, char customQuote) {
+    private static List<String> buscaLinha(String cvsLine, char separators, char customQuote) {
         List<String> result = new ArrayList<>();
 
         //Se está vazio retorna
