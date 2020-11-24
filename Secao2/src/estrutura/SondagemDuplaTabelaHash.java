@@ -1,12 +1,5 @@
 package estrutura;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.stream.Collectors;
-import model.Autor;
-
 public class SondagemDuplaTabelaHash<T> {
 
     private ChaveValor[] entradas;
@@ -23,7 +16,7 @@ public class SondagemDuplaTabelaHash<T> {
         this.entradasPreenchidas = 0;
     }
 
-    public void inserir(int chave, T valor) {
+    public void inserir(int chave, T valor) throws Exception {
         var contadorColisoes = 0;
         var inserido = false;
 
@@ -31,11 +24,11 @@ public class SondagemDuplaTabelaHash<T> {
             var hash = this.hash(chave, contadorColisoes);
 
             if (hash < 0) {
-                System.out.println("adsad");
+                throw new Exception("Muitas colisões causaram hash negativo.");
             }
 
             if (this.entradas[hash] == null) {
-                this.entradas[hash] = new ChaveValor<T>(chave, valor);
+                this.entradas[hash] = new ChaveValor<>(chave, valor);
                 inserido = true;
             } else {
                 contadorColisoes++;
@@ -70,7 +63,7 @@ public class SondagemDuplaTabelaHash<T> {
         return (h1 + i * h2) % this.m;
     }
 
-    private void aumentarTamanhoEReHash() {
+    private void aumentarTamanhoEReHash() throws Exception {
         this.m = this.m * 2;
 
         var novaTabelaHash = new SondagemDuplaTabelaHash<T>(this.m);

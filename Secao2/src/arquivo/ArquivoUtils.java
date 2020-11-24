@@ -46,7 +46,7 @@ public class ArquivoUtils {
         return livros;
     }
 
-    public static SondagemDuplaTabelaHash<Autor> lerDatasetAutores(String caminhoDataset) throws FileNotFoundException {
+    public static SondagemDuplaTabelaHash<Autor> lerDatasetAutores(String caminhoDataset) throws FileNotFoundException, Exception {
         Scanner scanner = new Scanner(new File(caminhoDataset));
         var autores = new SondagemDuplaTabelaHash<Autor>();
 
@@ -55,10 +55,7 @@ public class ArquivoUtils {
             var id = Integer.parseInt(linha.get(DEFAULT_AUTOR_ID), 10);
             autores.inserir(
                     id,
-                    new Autor(
-                            id,
-                            linha.get(DEFAULT_AUTOR_NOME)
-                    )
+                    new Autor(id, linha.get(DEFAULT_AUTOR_NOME))
             );
         }
 
