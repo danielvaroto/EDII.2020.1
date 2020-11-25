@@ -49,6 +49,9 @@ public class Secao3 {
             for (int i = 0; i < 5; i++) {
                 // Cria array de titulos aleatorio no tamanho especificado
                 String[] entradasAleatorias = ArquivoUtils.BuscarAleatorio(titulos, tamanho);
+                ArvoreVermelhoPreto arvoreVP =  new ArvoreVermelhoPreto();
+                ArvoreB arvoreB =  new ArvoreB(0);
+                ArvoreB arvoreB2 =  new ArvoreB(1);
             }
 
             System.out.println("Tamanho de entradas " + tamanho + " executado.");

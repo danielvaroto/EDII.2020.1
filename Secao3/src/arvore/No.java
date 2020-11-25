@@ -14,7 +14,8 @@ public class No {
     private int Y;
     private int larguraFilho;            
     final int DIFERENCA_ALTURA = 30;
-    final int DIFERENCA_IRMAOS = 5;
+    final int DIFERENCA_IRMAOS = 2;
+    final int DIFERENCA_IRMAOS2 = 20;
 
     public No(int n) {
         this.chave = new Vector<Integer>(n - 1);
