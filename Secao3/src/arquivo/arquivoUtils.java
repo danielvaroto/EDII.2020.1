@@ -1,4 +1,4 @@
-package file;
+package arquivo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class FileUtils {
+public class ArquivoUtils {
 
     private static final char DEFAULT_SEPARATOR = ',';
     private static final char DEFAULT_QUOTE = '"';
-    private static final int DEFAULT_TITLE = 9;
+    private static final int DEFAULT_TITLE = 11;
 
     public static List<String> LerDataset(String caminhoDataset) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(caminhoDataset));
@@ -26,7 +26,7 @@ public class FileUtils {
 
         while (scanner.hasNext()) {
             List<String> line = BuscaLinha(scanner.nextLine(), DEFAULT_SEPARATOR, DEFAULT_QUOTE);
-            if (line.size() == 10) {
+            if (line.size() == 28) {
                 titles.add(line.get(DEFAULT_TITLE));
             }
         }
