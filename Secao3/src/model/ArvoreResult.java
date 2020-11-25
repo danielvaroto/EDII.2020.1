@@ -3,10 +3,11 @@ package model;
 public class ArvoreResult {
 
     private final int EntriesCount;
-    private final long ComparisonCount;
-    private final long CopyCount;
-    private final long ProcessingTimeInMiliseconds;
+    private long ComparisonCount;
+    private long CopyCount;
+    private long ProcessingTimeInMiliseconds;
 
+    
     public ArvoreResult(int EntriesCount, long ComparisonCount, long CopyCount, long ProcessingTimeInMiliseconds) {
         this.EntriesCount = EntriesCount;
         this.ComparisonCount = ComparisonCount;
@@ -27,6 +28,10 @@ public class ArvoreResult {
     public long getComparisonCount() {
         return ComparisonCount;
     }
+    
+    public void IncrementComparisonCount() {
+        this.ComparisonCount++;
+    }
 
     /**
      * @return the CopyCount
@@ -34,11 +39,19 @@ public class ArvoreResult {
     public long getCopyCount() {
         return CopyCount;
     }
+    
+    public void IncrementCopyCount() {
+        this.CopyCount++;
+    }
 
     /**
      * @return the ProcessingTimeInMiliseconds
      */
     public long getProcessingTimeInMiliseconds() {
         return ProcessingTimeInMiliseconds;
+    }
+    
+    public void IncrementProcessingTimeInMiliseconds(final long ProcessingTimeInMiliseconds ) {
+        this.ProcessingTimeInMiliseconds += ProcessingTimeInMiliseconds;
     }
 }

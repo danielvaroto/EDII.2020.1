@@ -47,33 +47,56 @@ public class Secao3 {
                 // Cria array de titulos aleatorio no tamanho especificado
                 int[] entradasAleatorias = ArquivoUtils.BuscarAleatorio(titulos, tamanho);
                 ArvoreVermelhoPreto arvoreVP = new ArvoreVermelhoPreto();
-                ArvoreB arvoreB = new ArvoreB(2);
-                ArvoreB arvoreB2 = new ArvoreB(20);
+                ArvoreB arvoreB = new ArvoreB(2, tamanho);
+                ArvoreB arvoreB2 = new ArvoreB(20, tamanho);
                 for (int j = 0; j < tamanho; j++) {
                     arvoreVP.inserir(entradasAleatorias[j]);
                 }
                 for (int j = 0; j < tamanho / 10; j++) {
                     //arvoreVP.buscar()
                 }
+
+                // Grava tempo de inicio
+                long tempoInicial = System.currentTimeMillis();
                 for (int j = 0; j < tamanho; j++) {
-                    //arvoreB.insert(entradasAleatorias[j]);
+                    arvoreB.Inserir(entradasAleatorias[j]);
                 }
+                // Grava tempo do fim
+                long tempoFinal = System.currentTimeMillis();
+                arvoreB.setTimeInsert(tempoInicial - tempoFinal);
+
+                // Grava tempo de inicio
+                tempoInicial = System.currentTimeMillis();
                 for (int j = 0; j < tamanho / 10; j++) {
-                    arvoreB.Contain(entradasAleatorias[j]);
+                    arvoreB.Buscar(entradasAleatorias[j]);
                 }
+                // Grava tempo do fim
+                tempoFinal = System.currentTimeMillis();
+                arvoreB.setTimeBusca(tempoInicial - tempoFinal);
+
+                // Grava tempo de inicio
+                tempoInicial = System.currentTimeMillis();
                 for (int j = 0; j < tamanho; j++) {
-                    //arvoreB2.insert(entradasAleatorias[j]);
+                    arvoreB2.Inserir(entradasAleatorias[j]);
                 }
+                // Grava tempo do fim
+                tempoFinal = System.currentTimeMillis();
+                arvoreB.setTimeInsert(tempoInicial - tempoFinal);
+
+                // Grava tempo de inicio
+                tempoInicial = System.currentTimeMillis();
                 for (int j = 0; j < tamanho / 10; j++) {
-                    arvoreB2.Contain(entradasAleatorias[j]);
+                    arvoreB2.Buscar(entradasAleatorias[j]);
                 }
+                // Grava tempo do fim
+                tempoFinal = System.currentTimeMillis();
+                arvoreB.setTimeBusca(tempoInicial - tempoFinal);
 
             }
 
         }
 
         //System.out.println("Tamanho de entradas " + tamanho + " executado.");
-
         System.out.println(
                 "Finalizada execucao dos algoritmos inserção e busca na arvore.");
 
