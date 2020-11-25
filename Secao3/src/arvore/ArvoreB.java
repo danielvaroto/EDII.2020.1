@@ -82,7 +82,7 @@ public class ArvoreB {
   }
 
   // Inserting a value
-  public void Insert(final Integer key) {
+  public void Insert(final int key) {
     Node r = root;
     if (r.n == 2 * T - 1) {
       Node s = new Node();

@@ -47,7 +47,7 @@ public class Secao3 {
                 // Cria array de titulos aleatorio no tamanho especificado
                 int[] entradasAleatorias = ArquivoUtils.BuscarAleatorio(titulos, tamanho);
                 ArvoreVermelhoPreto arvoreVP = new ArvoreVermelhoPreto();
-                ArvoreB arvoreB = new ArvoreB(3);
+                ArvoreB arvoreB = new ArvoreB(2);
                 ArvoreB arvoreB2 = new ArvoreB(20);
                 for (int j = 0; j < tamanho; j++) {
                     arvoreVP.inserir(entradasAleatorias[j]);
@@ -59,13 +59,13 @@ public class Secao3 {
                     //arvoreB.insert(entradasAleatorias[j]);
                 }
                 for (int j = 0; j < tamanho / 10; j++) {
-                    // arvoreB.Search(entradasAleatorias[j]);
+                    arvoreB.Contain(entradasAleatorias[j]);
                 }
                 for (int j = 0; j < tamanho; j++) {
                     //arvoreB2.insert(entradasAleatorias[j]);
                 }
                 for (int j = 0; j < tamanho / 10; j++) {
-                    //arvoreB2.Search(entradasAleatorias[j]);
+                    arvoreB2.Contain(entradasAleatorias[j]);
                 }
 
             }

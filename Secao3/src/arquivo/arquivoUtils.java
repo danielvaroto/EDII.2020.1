@@ -50,12 +50,12 @@ public class ArquivoUtils {
         return tamanhoEntradas;
     }
 
-    public static String[] BuscarAleatorio(List<String> titles, int quantity) throws FileNotFoundException {
-        String[] titleRandom = new String[quantity];
+    public static int[] BuscarAleatorio(List<String> titles, int quantity) throws FileNotFoundException {
+        int[] titleRandom = new int[quantity];
 
         for (int i = 0; i < quantity; i++) {
             Random random = new Random();
-            titleRandom[i] = titles.get(random.nextInt(titles.size() - 1));
+            titleRandom[i] = Integer.parseInt(titles.get(random.nextInt(titles.size() - 1)));
         }
 
         return titleRandom;
