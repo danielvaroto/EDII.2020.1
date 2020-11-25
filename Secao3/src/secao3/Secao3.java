@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import arvore.*;
 
-
 public class Secao3 {
 
-   
     public static void main(String[] args) throws IOException {
         String caminhoDataset;
         String caminhoEntrada;
@@ -41,26 +39,49 @@ public class Secao3 {
         int[] tamanhos = ArquivoUtils.LerTamanhoEntradas(caminhoEntrada);
         System.out.println("Finalizada leitura do arquivo de entrada.");
 
-
         // Loop de tamanhos para executar todos os tamanhos
         System.out.println("Iniciando inserção e busca na arvore.");
         for (int tamanho : tamanhos) {
             // Cada tamanho é executado cinco vezes
             for (int i = 0; i < 5; i++) {
                 // Cria array de titulos aleatorio no tamanho especificado
-                String[] entradasAleatorias = ArquivoUtils.BuscarAleatorio(titulos, tamanho);
-                ArvoreVermelhoPreto arvoreVP =  new ArvoreVermelhoPreto();
-                ArvoreB arvoreB =  new ArvoreB(0);
-                ArvoreB arvoreB2 =  new ArvoreB(1);
+                int[] entradasAleatorias = ArquivoUtils.BuscarAleatorio(titulos, tamanho);
+                ArvoreVermelhoPreto arvoreVP = new ArvoreVermelhoPreto();
+                ArvoreB arvoreB = new ArvoreB(3);
+                ArvoreB arvoreB2 = new ArvoreB(20);
+                for (int j = 0; j < tamanho; j++) {
+                    arvoreVP.inserir(entradasAleatorias[j]);
+                }
+                for (int j = 0; j < tamanho / 10; j++) {
+                    //arvoreVP.buscar()
+                }
+                for (int j = 0; j < tamanho; j++) {
+                    //arvoreB.insert(entradasAleatorias[j]);
+                }
+                for (int j = 0; j < tamanho / 10; j++) {
+                    // arvoreB.Search(entradasAleatorias[j]);
+                }
+                for (int j = 0; j < tamanho; j++) {
+                    //arvoreB2.insert(entradasAleatorias[j]);
+                }
+                for (int j = 0; j < tamanho / 10; j++) {
+                    //arvoreB2.Search(entradasAleatorias[j]);
+                }
+
             }
 
-            System.out.println("Tamanho de entradas " + tamanho + " executado.");
         }
-        System.out.println("Finalizada execucao dos algoritmos inserção e busca na arvore.");
 
-        System.out.println("Iniciando salvamento de dados no arquivo de saida.");
-        
-        System.out.println("Finalizado salvamento de dados no arquivo de saida.");
+        //System.out.println("Tamanho de entradas " + tamanho + " executado.");
+
+        System.out.println(
+                "Finalizada execucao dos algoritmos inserção e busca na arvore.");
+
+        System.out.println(
+                "Iniciando salvamento de dados no arquivo de saida.");
+
+        System.out.println(
+                "Finalizado salvamento de dados no arquivo de saida.");
     }
-    
+
 }
