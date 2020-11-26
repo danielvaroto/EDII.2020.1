@@ -18,7 +18,7 @@ public class ArquivoUtils {
 
     private static final char DEFAULT_SEPARATOR = ',';
     private static final char DEFAULT_QUOTE = '"';
-    private static final int DEFAULT_TITLE = 11;
+    private static final int INDEX_ID = 11;
 
     public static List<String> LerDataset(String caminhoDataset) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(caminhoDataset));
@@ -27,7 +27,7 @@ public class ArquivoUtils {
         while (scanner.hasNext()) {
             List<String> line = BuscaLinha(scanner.nextLine(), DEFAULT_SEPARATOR, DEFAULT_QUOTE);
             if (line.size() == 28) {
-                titles.add(line.get(DEFAULT_TITLE));
+                titles.add(line.get(INDEX_ID));
             }
         }
 
@@ -39,10 +39,10 @@ public class ArquivoUtils {
     public static int[] LerTamanhoEntradas(String caminhoEntrada) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(caminhoEntrada));
         List<String> titles = new ArrayList();
-        
+
         int quantidadeTamanhoEntradas = scanner.nextInt();
         int[] tamanhoEntradas = new int[quantidadeTamanhoEntradas];
-        
+
         for (int i = 0; i < quantidadeTamanhoEntradas; i++) {
             tamanhoEntradas[i] = scanner.nextInt();
         }
@@ -61,17 +61,22 @@ public class ArquivoUtils {
         return titleRandom;
     }
 
-    public static void SalvaEstatisticasOrdenacao(String caminhoSaida, List<String> operacaoResultado,List<String> operacaoResultadoB,List<String> operacaoResultadoB2) throws IOException {
+    public static void SalvaEstatisticasOrdenacao(
+            String caminhoSaida,
+            List<String> operacaoResultado,
+            List<String> operacaoResultadoB,
+            List<String> operacaoResultadoB2)
+            throws IOException {
         List<String> lines = new ArrayList<>();
-        lines.add("Árvore VP - "+DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
+        lines.add("Árvore VP - " + DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
         lines.add("Num de entradas,Num de comparacoes,Num de copias,Tempo de processamento em milissegundos");
-        
+
         lines.addAll(operacaoResultado);
-        
-        lines.add("Árvore B - "+DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
+
+        lines.add("Árvore B - " + DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
         lines.addAll(operacaoResultadoB);
-        
-        lines.add("Árvore B2 - "+DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
+
+        lines.add("Árvore B2 - " + DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
         lines.addAll(operacaoResultadoB2);
 
         Path file = Paths.get(caminhoSaida);

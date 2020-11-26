@@ -1,28 +1,76 @@
 package arvore;
 
-import model.ArvoreResult;
+import model.ResultadoOperacao;
 
-public class ArvoreB {
+public class ArvoreB implements IArvore {
 
     private int T;
     private No raiz;
-    private ArvoreResult insertResult, buscaResult;
+    private ResultadoOperacao insertResult, buscaResult;
 
     // criação do nó
     public class No {
+
         int n;
         long key[] = new long[2 * T - 1];
         No filho[] = new No[2 * T];
         boolean eFolha = true;
     }
 
-  public ArvoreB(int t, int Entradas) {
+    public ArvoreB(int t, int Entradas) {
         T = t;
         raiz = new No();
         raiz.n = 0;
         raiz.eFolha = true;
-        insertResult = new ArvoreResult(Entradas, 0, 0, 0);
-        buscaResult = new ArvoreResult(Entradas, 0, 0, 0);
+        insertResult = new ResultadoOperacao(Entradas, 0, 0, 0);
+        buscaResult = new ResultadoOperacao(Entradas, 0, 0, 0);
+    }
+
+    @Override
+    public void inserir(long key) {
+        No r = raiz;
+        insertResult.incrementarQuantidadeCopias();
+        if (r.n == 2 * T - 1) {
+            No s = new No();
+            raiz = s;
+            s.eFolha = false;
+            s.n = 0;
+            s.filho[0] = r;
+            insertResult.incrementarQuantidadeCopias();
+            Dividi(s, 0, r);
+            inserirValor(s, key);
+        } else {
+            inserirValor(r, key);
+        }
+    }
+
+    @Override
+    public boolean buscar(long k) {
+        if (this.BuscaKey(raiz, k) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void aplicaTempoTotalInsercao(long tempoTotal) {
+        insertResult.aplicarTempoProcessamentoMilissegundos(tempoTotal);
+    }
+
+    @Override
+    public void aplicaTempoTotalBusca(long tempoTotal) {
+        buscaResult.aplicarTempoProcessamentoMilissegundos(tempoTotal);
+    }
+
+    @Override
+    public String buscaEstatisticasInsercao() {
+        return insertResult.buscaTextoFormatado();
+    }
+
+    @Override
+    public String buscaEstatisticasBusca() {
+        return buscaResult.buscaTextoFormatado();
     }
 
     // Search key
@@ -33,14 +81,14 @@ public class ArvoreB {
             return x;
         }
         for (i = 0; i < x.n; i++) {
-            if (buscaResult.IncrementComparisonCount() && key < x.key[i]) {
+            if (buscaResult.incrementarQuantidadeComparacoes() && key < x.key[i]) {
                 break;
             }
-            if (buscaResult.IncrementComparisonCount() && key == x.key[i]) {
+            if (buscaResult.incrementarQuantidadeComparacoes() && key == x.key[i]) {
                 return x;
             }
         }
-        
+
         if (x.eFolha) {
             return null;
         } else {
@@ -73,23 +121,6 @@ public class ArvoreB {
         x.n = x.n + 1;
     }
 
-    public void Inserir(final long key) {
-        No r = raiz;
-        insertResult.IncrementCopyCount();
-        if (r.n == 2 * T - 1) {
-            No s = new No();
-            raiz = s;
-            s.eFolha = false;
-            s.n = 0;
-            s.filho[0] = r;
-            insertResult.IncrementCopyCount();
-            Dividi(s, 0, r);
-            inserirValor(s, key);
-        } else {
-            inserirValor(r, key);
-        }
-    }
-
     final private void inserirValor(No x, long k) {
 
         if (x.eFolha) {
@@ -103,7 +134,7 @@ public class ArvoreB {
             int i = 0;
 
             for (i = x.n - 1; i >= 0 && k < x.key[i]; i--) {
-                insertResult.IncrementComparisonCount();
+                insertResult.incrementarQuantidadeComparacoes();
             };
             i++;
             No tmp = x.filho[i];
@@ -132,48 +163,5 @@ public class ArvoreB {
                 Mostrar(x.filho[i]);
             }
         }
-    }
-
-    public boolean Buscar(long k) {
-        if (this.BuscaKey(raiz, k) != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void setTimeInsert(long t) {
-        insertResult.IncrementProcessingTimeInMiliseconds(t);
-    }
-
-    public void setTimeBusca(long t) {
-        buscaResult.IncrementProcessingTimeInMiliseconds(t);
-    }
-    
-     public String buscaEstatisticasInsercao() {
-        String resultado = new StringBuilder()
-                    .append(insertResult.getEntriesCount())
-                    .append(",")
-                    .append(insertResult.getComparisonCount())
-                    .append(",")
-                    .append(insertResult.getCopyCount())
-                    .append(",")
-                    .append(insertResult.getProcessingTimeInMiliseconds())
-                    .toString();
-        
-        return resultado;
-    }
-     public String buscaEstatisticasBusca() {
-        String resultado = new StringBuilder()
-                    .append(buscaResult.getEntriesCount())
-                    .append(",")
-                    .append(buscaResult.getComparisonCount())
-                    .append(",")
-                    .append(buscaResult.getCopyCount())
-                    .append(",")
-                    .append(buscaResult.getProcessingTimeInMiliseconds())
-                    .toString();
-        
-        return resultado;
     }
 }

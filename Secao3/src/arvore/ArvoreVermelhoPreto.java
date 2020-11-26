@@ -1,8 +1,8 @@
 package arvore;
 
-import model.ArvoreResult;
+import model.ResultadoOperacao;
 
-public class ArvoreVermelhoPreto {
+public class ArvoreVermelhoPreto implements IArvore {
 
     private enum CorArvoreVermelhoPreto {
         VERMELHO,
@@ -40,52 +40,54 @@ public class ArvoreVermelhoPreto {
     }
 
     private NoArvoreVermelhoPreto raiz;
-    private ArvoreResult insercaoResultado, buscaResultado;
+    private ResultadoOperacao insercaoResultado, buscaResultado;
 
     public ArvoreVermelhoPreto(int entradas) {
-        insercaoResultado = new ArvoreResult(entradas, 0, 0, 0);
-        buscaResultado = new ArvoreResult(entradas, 0, 0, 0);
-    }
-    
-    public void aplicaTempoTotalInsercao(long tempoTotal) {
-        insercaoResultado.IncrementProcessingTimeInMiliseconds(tempoTotal);
-    }
-    
-    public void aplicaTempoTotalBusca(long tempoTotal) {
-        buscaResultado.IncrementProcessingTimeInMiliseconds(tempoTotal);
-    }
-    
-    public String buscaEstatisticasInsercao() {
-        String resultado = new StringBuilder()
-                    .append(insercaoResultado.getEntriesCount())
-                    .append(",")
-                    .append(insercaoResultado.getComparisonCount())
-                    .append(",")
-                    .append(insercaoResultado.getCopyCount())
-                    .append(",")
-                    .append(insercaoResultado.getProcessingTimeInMiliseconds())
-                    .toString();
-        
-        return resultado;
-    }
-    
-    public String buscaEstatisticasBusca() {
-        String resultado = new StringBuilder()
-                    .append(buscaResultado.getEntriesCount())
-                    .append(",")
-                    .append(buscaResultado.getComparisonCount())
-                    .append(",")
-                    .append(buscaResultado.getCopyCount())
-                    .append(",")
-                    .append(buscaResultado.getProcessingTimeInMiliseconds())
-                    .toString();
-        
-        return resultado;
+        insercaoResultado = new ResultadoOperacao(entradas, 0, 0, 0);
+        buscaResultado = new ResultadoOperacao(entradas, 0, 0, 0);
     }
 
+    @Override
     public void inserir(long valor) {
         raiz = inserir(raiz, valor);
         raiz.cor = CorArvoreVermelhoPreto.PRETO;
+    }
+
+    @Override
+    public boolean buscar(long valor) {
+        NoArvoreVermelhoPreto no = raiz;
+
+        while (no != null) {
+            if (buscaResultado.incrementarQuantidadeComparacoes() && valor < no.valor) {
+                no = no.noFilhoEsquerdo;
+            } else if (buscaResultado.incrementarQuantidadeComparacoes() && valor > no.valor) {
+                no = no.noFilhoDireito;
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public void aplicaTempoTotalInsercao(long tempoTotal) {
+        insercaoResultado.aplicarTempoProcessamentoMilissegundos(tempoTotal);
+    }
+
+    @Override
+    public void aplicaTempoTotalBusca(long tempoTotal) {
+        buscaResultado.aplicarTempoProcessamentoMilissegundos(tempoTotal);
+    }
+
+    @Override
+    public String buscaEstatisticasInsercao() {
+        return insercaoResultado.buscaTextoFormatado();        
+    }
+
+    @Override
+    public String buscaEstatisticasBusca() {
+        return buscaResultado.buscaTextoFormatado();
     }
 
     private NoArvoreVermelhoPreto inserir(NoArvoreVermelhoPreto no, long valor) {
@@ -93,9 +95,9 @@ public class ArvoreVermelhoPreto {
             return new NoArvoreVermelhoPreto(valor, CorArvoreVermelhoPreto.VERMELHO, 1);
         }
 
-        if (insercaoResultado.IncrementComparisonCount() && valor < no.valor) {
+        if (insercaoResultado.incrementarQuantidadeComparacoes() && valor < no.valor) {
             no.noFilhoEsquerdo = inserir(no.noFilhoEsquerdo, valor);
-        } else if (insercaoResultado.IncrementComparisonCount() && valor > no.valor) {
+        } else if (insercaoResultado.incrementarQuantidadeComparacoes() && valor > no.valor) {
             no.noFilhoDireito = inserir(no.noFilhoDireito, valor);
         } else {
             no.valor = valor;
@@ -115,31 +117,15 @@ public class ArvoreVermelhoPreto {
 
         return no;
     }
-    
+
     private boolean ehVermelho(NoArvoreVermelhoPreto no) {
         return no == null ? false : no.ehVermelho();
     }
 
-    public boolean buscar(long valor) {
-        NoArvoreVermelhoPreto no = raiz;
-
-        while (no != null) {
-            if (buscaResultado.IncrementComparisonCount() && valor < no.valor) {
-                no = no.noFilhoEsquerdo;
-            } else if (buscaResultado.IncrementComparisonCount() && valor > no.valor) {
-                no = no.noFilhoDireito;
-            } else {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private NoArvoreVermelhoPreto rotacionarParaDireita(NoArvoreVermelhoPreto no) {
         // incrementa quantidade de copias
-        insercaoResultado.IncrementCopyCount();
-        
+        insercaoResultado.incrementarQuantidadeCopias();
+
         var noFilhoEsquerdo = no.noFilhoEsquerdo;
 
         // rotaciona
@@ -159,8 +145,8 @@ public class ArvoreVermelhoPreto {
 
     private NoArvoreVermelhoPreto rotacionarParaEsquerda(NoArvoreVermelhoPreto no) {
         // incrementa quantidade de copias
-        insercaoResultado.IncrementCopyCount();
-        
+        insercaoResultado.incrementarQuantidadeCopias();
+
         var noFilhoDireito = no.noFilhoDireito;
 
         // rotaciona
