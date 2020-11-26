@@ -11,21 +11,29 @@ public class ArvoreB implements IArvore {
     // criação do nó
     public class No {
 
+        //altura da arvore
         int n;
-        long key[] = new long[2 * T - 1];
+        //chave da arvore
+        long chave[] = new long[2 * T - 1];
+        //array com os filhos 
         No filho[] = new No[2 * T];
+        //sempre inicia o no como folha
         boolean eFolha = true;
     }
 
     public ArvoreB(int t, int Entradas) {
+        //define ordem da arvore
         T = t;
         raiz = new No();
+        //altura da arvore inicial é 0
         raiz.n = 0;
         raiz.eFolha = true;
+        //inicializa variaveis de comparaçoes 
         insertResult = new ResultadoOperacao(Entradas, 0, 0, 0);
         buscaResult = new ResultadoOperacao(Entradas, 0, 0, 0);
     }
 
+    //metodo de inserir na arvore
     @Override
     public void inserir(long key) {
         No r = raiz;
@@ -46,7 +54,7 @@ public class ArvoreB implements IArvore {
 
     @Override
     public boolean buscar(long k) {
-        if (this.BuscaKey(raiz, k) != null) {
+        if (this.BuscaChave(raiz, k) != null) {
             return true;
         } else {
             return false;
@@ -73,18 +81,18 @@ public class ArvoreB implements IArvore {
         return buscaResult.buscaTextoFormatado();
     }
 
-    // Search key
-    private No BuscaKey(No x, long key) {
+    // procura chave
+    private No BuscaChave(No x, long chave) {
         int i = 0;
 
         if (x == null) {
             return x;
         }
         for (i = 0; i < x.n; i++) {
-            if (buscaResult.incrementarQuantidadeComparacoes() && key < x.key[i]) {
+            if (buscaResult.incrementarQuantidadeComparacoes() && chave < x.chave[i]) {
                 break;
             }
-            if (buscaResult.incrementarQuantidadeComparacoes() && key == x.key[i]) {
+            if (buscaResult.incrementarQuantidadeComparacoes() && chave == x.chave[i]) {
                 return x;
             }
         }
@@ -92,55 +100,64 @@ public class ArvoreB implements IArvore {
         if (x.eFolha) {
             return null;
         } else {
-            return BuscaKey(x.filho[i], key);
+            return BuscaChave(x.filho[i], chave);
         }
     }
-
+    //dividi os elementos quando estourar o T subindo o menos
     private void Dividi(No x, int pos, No y) {
+        insertResult.incrementarQuantidadeCopias();
         No z = new No();
         z.eFolha = y.eFolha;
         z.n = T - 1;
         for (int j = 0; j < T - 1; j++) {
-            z.key[j] = y.key[j + T];
+            insertResult.incrementarQuantidadeCopias();
+
+            z.chave[j] = y.chave[j + T];
         }
         if (!y.eFolha) {
             for (int j = 0; j < T; j++) {
+                insertResult.incrementarQuantidadeCopias();
+
                 z.filho[j] = y.filho[j + T];
             }
         }
         y.n = T - 1;
         for (int j = x.n; j >= pos + 1; j--) {
+            insertResult.incrementarQuantidadeCopias();
             x.filho[j + 1] = x.filho[j];
         }
         x.filho[pos + 1] = z;
 
         for (int j = x.n - 1; j >= pos; j--) {
-            x.key[j + 1] = x.key[j];
+            insertResult.incrementarQuantidadeCopias();
+
+            x.chave[j + 1] = x.chave[j];
         }
-        x.key[pos] = y.key[T - 1];
+        x.chave[pos] = y.chave[T - 1];
         x.n = x.n + 1;
     }
-
+    //insere o no na arvore
     final private void inserirValor(No x, long k) {
 
         if (x.eFolha) {
             int i = 0;
-            for (i = x.n - 1; i >= 0 && k < x.key[i]; i--) {
-                x.key[i + 1] = x.key[i];
+            for (i = x.n - 1; i >= 0 && k < x.chave[i]; i--) {
+                insertResult.incrementarQuantidadeComparacoes();
+                x.chave[i + 1] = x.chave[i];
             }
-            x.key[i + 1] = k;
+            x.chave[i + 1] = k;
             x.n = x.n + 1;
         } else {
             int i = 0;
 
-            for (i = x.n - 1; i >= 0 && k < x.key[i]; i--) {
+            for (i = x.n - 1; i >= 0 && k < x.chave[i]; i--) {
                 insertResult.incrementarQuantidadeComparacoes();
             };
             i++;
             No tmp = x.filho[i];
             if (tmp.n == 2 * T - 1) {
                 Dividi(x, i, tmp);
-                if (k > x.key[i]) {
+                if (k > x.chave[i]) {
                     i++;
                 }
             }
@@ -156,7 +173,7 @@ public class ArvoreB implements IArvore {
     private void Mostrar(No x) {
         assert (x == null);
         for (int i = 0; i < x.n; i++) {
-            System.out.print(x.key[i] + " ");
+            System.out.print(x.chave[i] + " ");
         }
         if (!x.eFolha) {
             for (int i = 0; i < x.n + 1; i++) {

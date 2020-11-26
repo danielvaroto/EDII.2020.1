@@ -18,7 +18,7 @@ public class ArquivoUtils {
 
     private static final char DEFAULT_SEPARATOR = ',';
     private static final char DEFAULT_QUOTE = '"';
-    private static final int INDEX_ID = 11;
+    private static final int INDEX_ID = 4;
 
     public static List<String> LerDataset(String caminhoDataset) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(caminhoDataset));
@@ -26,7 +26,7 @@ public class ArquivoUtils {
 
         while (scanner.hasNext()) {
             List<String> line = BuscaLinha(scanner.nextLine(), DEFAULT_SEPARATOR, DEFAULT_QUOTE);
-            if (line.size() == 28) {
+            if (line.size() == 10) {
                 titles.add(line.get(INDEX_ID));
             }
         }
