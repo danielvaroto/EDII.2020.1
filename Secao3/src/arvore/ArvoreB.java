@@ -10,22 +10,10 @@ public class ArvoreB {
 
     // criação do nó
     public class No {
-
         int n;
-        int key[] = new int[2 * T - 1];
+        long key[] = new long[2 * T - 1];
         No filho[] = new No[2 * T];
         boolean eFolha = true;
-
-        public int BuscaChave(int k) {
-            for (int i = 0; i < this.n; i++) {
-                if (this.key[i] == k) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-    ;
-
     }
 
   public ArvoreB(int t, int Entradas) {
@@ -38,21 +26,21 @@ public class ArvoreB {
     }
 
     // Search key
-    private No BuscaKey(No x, int key) {
+    private No BuscaKey(No x, long key) {
         int i = 0;
-        buscaResult.IncrementComparisonCount();
+
         if (x == null) {
             return x;
         }
         for (i = 0; i < x.n; i++) {
-            buscaResult.IncrementComparisonCount();
-            if (key < x.key[i]) {
+            if (buscaResult.IncrementComparisonCount() && key < x.key[i]) {
                 break;
             }
-            if (key == x.key[i]) {
+            if (buscaResult.IncrementComparisonCount() && key == x.key[i]) {
                 return x;
             }
         }
+        
         if (x.eFolha) {
             return null;
         } else {
@@ -85,7 +73,7 @@ public class ArvoreB {
         x.n = x.n + 1;
     }
 
-    public void Inserir(final int key) {
+    public void Inserir(final long key) {
         No r = raiz;
         insertResult.IncrementCopyCount();
         if (r.n == 2 * T - 1) {
@@ -102,7 +90,7 @@ public class ArvoreB {
         }
     }
 
-    final private void inserirValor(No x, int k) {
+    final private void inserirValor(No x, long k) {
 
         if (x.eFolha) {
             int i = 0;
@@ -146,7 +134,7 @@ public class ArvoreB {
         }
     }
 
-    public boolean Buscar(int k) {
+    public boolean Buscar(long k) {
         if (this.BuscaKey(raiz, k) != null) {
             return true;
         } else {

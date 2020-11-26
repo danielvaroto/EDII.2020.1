@@ -50,18 +50,30 @@ public class ArquivoUtils {
         return tamanhoEntradas;
     }
 
-    public static int[] BuscarAleatorio(List<String> titles, int quantity) throws FileNotFoundException {
-        int[] titleRandom = new int[quantity];
+    public static long[] BuscarAleatorio(List<String> titles, int quantity) throws FileNotFoundException {
+        long[] titleRandom = new long[quantity];
 
         for (int i = 0; i < quantity; i++) {
             Random random = new Random();
-            titleRandom[i] = Integer.parseInt(titles.get(random.nextInt(titles.size() - 1)));
+            titleRandom[i] = Long.parseLong(titles.get(random.nextInt(titles.size() - 1)));
         }
 
         return titleRandom;
     }
 
-    
+    public static void SalvaEstatisticasOrdenacao(String caminhoSaida, List<String> operacaoResultado) throws IOException {
+        List<String> lines = new ArrayList<>();
+        lines.add(DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
+        lines.add("Num de entradas,Num de comparacoes,Num de copias,Tempo de processamento em milissegundos");
+        
+        lines.addAll(operacaoResultado);
+
+        Path file = Paths.get(caminhoSaida);
+        Files.write(file,
+                lines,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.APPEND);
+    }
 
     private static List<String> BuscaLinha(String cvsLine, char separators, char customQuote) {
         List<String> result = new ArrayList<>();

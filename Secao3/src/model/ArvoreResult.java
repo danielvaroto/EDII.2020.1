@@ -29,8 +29,10 @@ public class ArvoreResult {
         return ComparisonCount;
     }
     
-    public void IncrementComparisonCount() {
+    public boolean IncrementComparisonCount() {
         this.ComparisonCount++;
+        
+        return true;
     }
 
     /**
