@@ -24,10 +24,14 @@ public class Secao3 {
 
         // Loop de tamanhos para executar todos os tamanhos
         System.out.println("Iniciando inserção e busca na arvore.");
-        
+
         List<String> estatisticasInsercao = new ArrayList<>();
         List<String> estatisticasBusca = new ArrayList<>();
-        
+        List<String> estatisticasInsercaoB = new ArrayList<>();
+        List<String> estatisticasBuscaB = new ArrayList<>();
+        List<String> estatisticasInsercaoB2 = new ArrayList<>();
+        List<String> estatisticasBuscaB2 = new ArrayList<>();
+
         for (int tamanho : tamanhos) {
             // Cada tamanho é executado cinco vezes
             for (int i = 0; i < 5; i++) {
@@ -36,7 +40,7 @@ public class Secao3 {
                 ArvoreVermelhoPreto arvoreVP = new ArvoreVermelhoPreto(tamanho);
                 ArvoreB arvoreB = new ArvoreB(2, tamanho);
                 ArvoreB arvoreB2 = new ArvoreB(20, tamanho);
-                
+
                 // Grava tempo de inicio
                 long tempoInicial = System.currentTimeMillis();
                 for (int j = 0; j < tamanho; j++) {
@@ -45,18 +49,18 @@ public class Secao3 {
                 // Grava tempo do fim
                 long tempoFinal = System.currentTimeMillis();
                 arvoreVP.aplicaTempoTotalInsercao(tempoFinal - tempoInicial);
-                
+
                 estatisticasInsercao.add(arvoreVP.buscaEstatisticasInsercao());
-                
+
                 // Grava tempo de inicio
                 tempoInicial = System.currentTimeMillis();
-                for (int j = 0; j < (tamanho / 10)+1; j++) {
+                for (int j = 0; j < (tamanho / 10) + 1; j++) {
                     arvoreVP.buscar(entradasAleatorias[j]);
                 }
                 // Grava tempo do fim
                 tempoFinal = System.currentTimeMillis();
                 arvoreVP.aplicaTempoTotalInsercao(tempoFinal - tempoInicial);
-                
+
                 estatisticasBusca.add(arvoreVP.buscaEstatisticasBusca());
 
                 // Grava tempo de inicio
@@ -67,15 +71,17 @@ public class Secao3 {
                 // Grava tempo do fim
                 tempoFinal = System.currentTimeMillis();
                 arvoreB.setTimeInsert(tempoFinal - tempoInicial);
+                estatisticasInsercaoB.add(arvoreB.buscaEstatisticasInsercao());
 
                 // Grava tempo de inicio
                 tempoInicial = System.currentTimeMillis();
-                for (int j = 0; j < (tamanho / 10)+1; j++) {
+                for (int j = 0; j < (tamanho / 10) + 1; j++) {
                     arvoreB.Buscar(entradasAleatorias[j]);
                 }
                 // Grava tempo do fim
                 tempoFinal = System.currentTimeMillis();
                 arvoreB.setTimeBusca(tempoFinal - tempoInicial);
+                estatisticasBuscaB.add(arvoreB.buscaEstatisticasBusca());
 
                 // Grava tempo de inicio
                 tempoInicial = System.currentTimeMillis();
@@ -85,20 +91,23 @@ public class Secao3 {
                 // Grava tempo do fim
                 tempoFinal = System.currentTimeMillis();
                 arvoreB.setTimeInsert(tempoFinal - tempoInicial);
+                estatisticasInsercaoB2.add(arvoreB.buscaEstatisticasInsercao());
 
                 // Grava tempo de inicio
                 tempoInicial = System.currentTimeMillis();
-                for (int j = 0; j < (tamanho / 10)+1; j++) {
+                for (int j = 0; j < (tamanho / 10) + 1; j++) {
                     arvoreB2.Buscar(entradasAleatorias[j]);
                 }
                 // Grava tempo do fim
                 tempoFinal = System.currentTimeMillis();
                 arvoreB.setTimeBusca(tempoFinal - tempoInicial);
+                estatisticasBuscaB2.add(arvoreB.buscaEstatisticasBusca());
+
             }
         }
 
-        ArquivoUtils.SalvaEstatisticasOrdenacao(argumentos.caminhoSaidaInsercao, estatisticasInsercao);
-        ArquivoUtils.SalvaEstatisticasOrdenacao(argumentos.caminhoSaidaBusca, estatisticasBusca);
+        ArquivoUtils.SalvaEstatisticasOrdenacao(argumentos.caminhoSaidaInsercao, estatisticasInsercao,estatisticasInsercaoB,estatisticasInsercaoB2);
+        ArquivoUtils.SalvaEstatisticasOrdenacao(argumentos.caminhoSaidaBusca, estatisticasBusca,estatisticasBuscaB,estatisticasBuscaB2);
     }
 
 }

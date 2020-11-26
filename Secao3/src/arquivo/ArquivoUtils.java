@@ -61,12 +61,18 @@ public class ArquivoUtils {
         return titleRandom;
     }
 
-    public static void SalvaEstatisticasOrdenacao(String caminhoSaida, List<String> operacaoResultado) throws IOException {
+    public static void SalvaEstatisticasOrdenacao(String caminhoSaida, List<String> operacaoResultado,List<String> operacaoResultadoB,List<String> operacaoResultadoB2) throws IOException {
         List<String> lines = new ArrayList<>();
-        lines.add(DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
+        lines.add("Árvore VP - "+DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
         lines.add("Num de entradas,Num de comparacoes,Num de copias,Tempo de processamento em milissegundos");
         
         lines.addAll(operacaoResultado);
+        
+        lines.add("Árvore B - "+DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
+        lines.addAll(operacaoResultadoB);
+        
+        lines.add("Árvore B2 - "+DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm:ss").format(ZonedDateTime.now()));
+        lines.addAll(operacaoResultadoB2);
 
         Path file = Paths.get(caminhoSaida);
         Files.write(file,

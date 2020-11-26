@@ -149,4 +149,31 @@ public class ArvoreB {
     public void setTimeBusca(long t) {
         buscaResult.IncrementProcessingTimeInMiliseconds(t);
     }
+    
+     public String buscaEstatisticasInsercao() {
+        String resultado = new StringBuilder()
+                    .append(insertResult.getEntriesCount())
+                    .append(",")
+                    .append(insertResult.getComparisonCount())
+                    .append(",")
+                    .append(insertResult.getCopyCount())
+                    .append(",")
+                    .append(insertResult.getProcessingTimeInMiliseconds())
+                    .toString();
+        
+        return resultado;
+    }
+     public String buscaEstatisticasBusca() {
+        String resultado = new StringBuilder()
+                    .append(buscaResult.getEntriesCount())
+                    .append(",")
+                    .append(buscaResult.getComparisonCount())
+                    .append(",")
+                    .append(buscaResult.getCopyCount())
+                    .append(",")
+                    .append(buscaResult.getProcessingTimeInMiliseconds())
+                    .toString();
+        
+        return resultado;
+    }
 }
