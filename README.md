@@ -44,3 +44,24 @@ java -jar ".\Secao2.jar" "M" "N" ".\exemploDatasetLivros.csv" ".\exemploDatasetA
 
 - Caminho para o arquivo de saída (ex: ".\exemploSaida.txt") que será inserido os dados de saída após a execução das ordenações. Obs: caso o caminho não exista o arquivo será criado no caminho especificado.
 ```
+
+- Seção 3:
+```
+Comando para executar a Seção 3:
+java -jar ".\Secao3.jar" ".\exemploEntrada.txt" ".\exemploDatasetLivros.csv" "./exemploSaidaInsercao.txt" "./exemploSaidaBusca.txt"
+
+- Caminho para o arquivo com os tamanhos de entradas a serem testados (ex: ".\exemploEntrada.txt") com o seguinte formato:
+
+5 -> número de valores de N que se seguem, um por linha
+1000
+5000
+10000
+50000
+100000
+
+- Caminho para o dataset de livros (ex: ".\exemploDatasetLivros.csv") que conterá os dados de livros para encontrar os autores mais frequentes.
+
+- Caminho para o arquivo de saída para estatísticas de inserção (ex: ".\exemploSaidaInsercao.txt") que será inserido os dados de saída após a execução das ordenações. Obs: caso o caminho não exista o arquivo será criado no caminho especificado.
+
+- Caminho para o arquivo de saída para estatísticas de busca (ex: ".\exemploSaidaBusca.txt") que será inserido os dados de saída após a execução das ordenações. Obs: caso o caminho não exista o arquivo será criado no caminho especificado.
+```
